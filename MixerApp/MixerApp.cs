@@ -14,54 +14,43 @@ namespace MixerApp
 
     internal class Program
     {
-        
+        static void Main(string[] args)
+        {
 
-
-
-
-
-
-
-
-
-
-
-
-
-        static void Main(string[] args) { 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.CursorVisible = false;
             MixerModel model = new MixerModel();
 
             MenuItem menu = new MenuItem();
-        
-         MenuItem item1 = new MenuItem() { Title = "Řazení" };
-         item1.Items.Add(new MenuItem() { Title = "Podle jména" });
-         item1.Items.Add(new MenuItem() { Title = "Podle výrobce" });
-         menu.Items.Add(item1);
-        
-         MenuItem item2 = new MenuItem() { Title = "Funkce" };
-         item2.Items.Add(new MenuItem() { Title = "Tyčový" });
-         item2.Items.Add(new MenuItem() { Title = "Stolní" });
-         item2.Items.Add(new MenuItem() { Title = "Ruční" });
-         menu.Items.Add(item2);
-        
-         MenuItem item3 = new MenuItem() { Title = "Uložit,Smazat,Načíst" };
-         item3.Items.Add(new MenuItem() { Title = "Uložit" });
-         item3.Items.Add(new MenuItem() { Title = "Smazat" });
+            MenuItem item1 = new MenuItem() { Title = "Řazení" };
+            item1.Items.Add(new MenuItem() { Title = "Podle jména" });
+            item1.Items.Add(new MenuItem() { Title = "Podle výrobce" });
+            menu.Items.Add(item1);
+
+            MenuItem item2 = new MenuItem() { Title = "Funkce" };
+            item2.Items.Add(new MenuItem() { Title = "Tyčový" });
+            item2.Items.Add(new MenuItem() { Title = "Stolní" });
+            item2.Items.Add(new MenuItem() { Title = "Ruční" });
+            menu.Items.Add(item2);
+
+            MenuItem item3 = new MenuItem() { Title = "Přidat mixér,Uložit,Smazat,Načíst" };
+            item3.Items.Add(new MenuItem() { Title = "Uložit" });
+            item3.Items.Add(new MenuItem() { Title = "Smazat" });
             item3.Items.Add(new MenuItem() { Title = "Načíst" });
-         menu.Items.Add(item3);
-         MenuItem item4 = new MenuItem() { Title = "Najít Mixéry" };
-         menu.Items.Add(item4);
-        
-         MenuItem item5 = new MenuItem() { Title = "Editovat" };
-         menu.Items.Add(item5);
-        
-         MenuItem item6 = new MenuItem() { Title = "Ukončit" };
-         menu.Items.Add(item6);
-         MenuItem item7 = new MenuItem() { Title = "Uložit" };
-         menu.Items.Add(item7);
-         MenuItem item8 = new MenuItem() { Title = "Pustit si písničku" };
-         menu.Items.Add(item8);
+            item3.Items.Add(new MenuItem() { Title = "Přidat" });
+            menu.Items.Add(item3);
+            MenuItem item4 = new MenuItem() { Title = "Najít Mixéry" };
+            menu.Items.Add(item4);
+
+            MenuItem item5 = new MenuItem() { Title = "Editovat" };
+            menu.Items.Add(item5);
+
+            MenuItem item6 = new MenuItem() { Title = "Pustit si písničku" };
+            menu.Items.Add(item6);
+            MenuItem item8 = new MenuItem() { Title = "Ukončit" };
+            menu.Items.Add(item8);
+            MenuItem item9 = new MenuItem() { Title = "Můj GitHub" };
+            menu.Items.Add(item9);
 
             while (true)
             {
@@ -70,8 +59,11 @@ namespace MixerApp
                     continue;
                 switch (selected.Title)
                 {
+                    case "Můj GitHub":
+                        Console.WriteLine("https://github.com/karlbrych");
+                        break;
                     case "Načíst":
-                        model.LoadJson();
+                        List<Mixer> mixers = model.LoadJson();
                         break;
                     case "Uložit":
                         model.SaveJson(); break;
@@ -85,7 +77,7 @@ namespace MixerApp
                         break;
                     case "Editovat":
                         Console.WriteLine("");
-                       model.EditMixers();
+                        model.EditMixers();
                         break;
                     case "Najít Mixér":
                         Console.WriteLine("");
@@ -133,15 +125,16 @@ namespace MixerApp
         public double Speed { get; set; }
 
     }
-  
-     public class Type
+
+    public class Type
     {
         public bool Stick { get; set; }
         public bool Table { get; set; }
         public bool Handheld { get; set; }
-        
+
     }
 }
+
 
 
 

@@ -129,12 +129,12 @@ namespace MixerApp
       public  void OrderByTable()
         {
             var orderedMixers = mixers.OrderBy(x => x.Type.Table).ToList();
-            
+            DisplayMixers(orderedMixers);
         }
        public void PlayMusic()
         {
             var player = new WaveOutEvent();
-            var reader = new Mp3FileReader("TheFatRat_Timelapse.mp3");
+            var reader = new Mp3FileReader("Timelapse.mp3");
             player.Init(reader);
             player.Play();
         }
@@ -353,8 +353,11 @@ namespace MixerApp
                 Console.WriteLine($"Chyba při mazání souboru: {ex.Message}");
             }
         }
-        public void LoadJson()
+
+
+        public List<Mixer> LoadJson()
         {
+          
             try
             {
                 if (File.Exists("databaze.json"))
@@ -372,8 +375,8 @@ namespace MixerApp
             {
                 Console.WriteLine($"Chyba při načítání dat: {ex.Message}");
             }
+            return mixers;
         }
-
         public void Exit()
         {
             Environment.Exit(0);
