@@ -2,6 +2,7 @@
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -380,6 +381,18 @@ namespace MixerApp
         public void Exit()
         {
             Environment.Exit(0);
+        }
+        public void OpenURL()
+        {
+            string url = "https://github.com/karlbrych";
+            try
+            {
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error opening URL: {ex.Message}");
+            }
         }
     }
 }

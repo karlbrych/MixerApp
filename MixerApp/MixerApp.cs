@@ -60,7 +60,7 @@ namespace MixerApp
                 switch (selected.Title)
                 {
                     case "Můj GitHub":
-                        Console.WriteLine("https://github.com/karlbrych");
+                        model.OpenURL();
                         break;
                     case "Načíst":
                         List<Mixer> mixers = model.LoadJson();
