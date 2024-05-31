@@ -134,7 +134,7 @@ namespace MixerApp
        public void PlayMusic()
         {
             var player = new WaveOutEvent();
-            var reader = new Mp3FileReader("Timelapse.mp3");
+            var reader = new Mp3FileReader(@"./songs/unity.mp3");
             player.Init(reader);
             player.Play();
         }
@@ -245,7 +245,7 @@ namespace MixerApp
         public void FindMixer()
         {
             Console.CursorVisible = true;
-            Console.WriteLine("mixér ktere tu sou:");
+            Console.WriteLine("mixéry, které tu jsou:");
             Console.WriteLine("");
             mixers.ForEach(x =>
             {
