@@ -134,7 +134,7 @@ namespace MixerApp
        public void PlayMusic()
         {
             var player = new WaveOutEvent();
-            var reader = new Mp3FileReader(@"./songs/unity.mp3");
+            var reader = new Mp3FileReader("unity.mp3");
             player.Init(reader);
             player.Play();
         }
