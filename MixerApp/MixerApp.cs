@@ -45,9 +45,10 @@ namespace MixerApp
          item2.Items.Add(new MenuItem() { Title = "Ruční" });
          menu.Items.Add(item2);
         
-         MenuItem item3 = new MenuItem() { Title = "Přidat nebo Smazat" };
-         item3.Items.Add(new MenuItem() { Title = "Přidat" });
+         MenuItem item3 = new MenuItem() { Title = "Uložit,Smazat,Načíst" };
+         item3.Items.Add(new MenuItem() { Title = "Uložit" });
          item3.Items.Add(new MenuItem() { Title = "Smazat" });
+            item3.Items.Add(new MenuItem() { Title = "Načíst" });
          menu.Items.Add(item3);
          MenuItem item4 = new MenuItem() { Title = "Najít Mixéry" };
          menu.Items.Add(item4);
@@ -69,6 +70,13 @@ namespace MixerApp
                     continue;
                 switch (selected.Title)
                 {
+                    case "Načíst":
+                        model.LoadJson();
+                        break;
+                    case "Uložit":
+                        model.SaveJson(); break;
+                    case "Smazat":
+                        model.DeleteJson(); break;
                     case "Pustit si písničku":
                         model.PlayMusic();
                         break;
@@ -82,10 +90,6 @@ namespace MixerApp
                     case "Najít Mixér":
                         Console.WriteLine("");
                         model.FindMixer();
-                        break;
-                    case "Smazat":
-                        Console.WriteLine("");
-                        model.JsonDelete();
                         break;
                     case "Přidat":
                         Console.WriteLine("");

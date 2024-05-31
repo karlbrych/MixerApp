@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MixerApp
@@ -74,24 +75,7 @@ namespace MixerApp
     {
 
        public List<Mixer> mixers = new List<Mixer>();
-       public void JsonDelete()
-        {
-            Console.CursorVisible = true;
-            Console.WriteLine("lednice ktere tu sou:");
-            Console.WriteLine("");
-            mixers.ForEach(x =>
-            {
-                Console.WriteLine("------------------");
-                Console.WriteLine("|" + x.ModelName + "|");
-                Console.WriteLine("------------------");
-            });
-            Console.WriteLine("");
-            Console.WriteLine("Jmeno lednice kterou chcete smazat");
-            string Jmeno = Console.ReadLine();
-            mixers.RemoveAll(x => x.ModelName == Jmeno);
-
-
-        }
+       
       public  void AddMixer()
         {
             Console.CursorVisible = true;
@@ -100,13 +84,16 @@ namespace MixerApp
             Console.WriteLine("Zadejte výrobce");
             string brand = Console.ReadLine();
             Console.WriteLine("Zadejte rychlost otáček za minutu");
+          
+                bool isnumber = double.TryParse(Console.ReadLine(), out double speed);
+          
+                if (!isnumber || speed == 0)
+                {
+                    Console.WriteLine("Špatně zadané číslo");
+                    return;
+                }
 
-            bool isnumber = double.TryParse(Console.ReadLine(), out double speed);
-            if (!isnumber || speed == 0)
-            {
-                Console.WriteLine("Špatně zadané číslo");
-                return;
-            }
+            
             Console.WriteLine("Ruční? true or false");
             bool isbool = bool.TryParse(Console.ReadLine(), out bool handheld);
             if (!isbool)
@@ -142,49 +129,7 @@ namespace MixerApp
       public  void OrderByTable()
         {
             var orderedMixers = mixers.OrderBy(x => x.Type.Table).ToList();
-
-            int count = 0;
-            int pageSize = 4;
-
-            while (count < orderedMixers.Count)
-            {
-                var page = orderedMixers.Skip(count).Take(pageSize);
-
-                foreach (var mixer in page)
-                {
-                    Console.WriteLine("------------------");
-                    Console.WriteLine($"Model: {mixer.ModelName}");
-                    Console.WriteLine($"Výrobce: {mixer.Brand}");
-                    Console.WriteLine($"Stolní: {mixer.Type.Table}");
-                    Console.WriteLine($"Ruční: {mixer.Type.Handheld}");
-                    Console.WriteLine($"Tyčový: {mixer.Type.Stick}");
-                    Console.WriteLine("------------------");
-                }
-
-                count += pageSize;
-
-                if (count < orderedMixers.Count)
-                {
-
-                    Console.WriteLine("pravou šipku pro další stranu, levou pro předešlou stranu. Enter pro ukončení ");
-                    var key = Console.ReadKey();
-                    if (key.Key == ConsoleKey.RightArrow)
-                    {
-                        Console.Clear();
-                    }
-                    else if (key.Key == ConsoleKey.LeftArrow)
-                    {
-                        count -= 2 * pageSize;
-                        Console.Clear();
-                    }
-                    else
-                    {
-                        break;
-                    }
-                    Console.WriteLine();
-
-                }
-            }
+            
         }
        public void PlayMusic()
         {
@@ -195,228 +140,24 @@ namespace MixerApp
         }
       public  void OrderByStick()
         {
-
             var orderedMixers = mixers.OrderBy(x => x.Type.Stick).ToList();
-
-            int count = 0;
-            int pageSize = 4;
-
-            while (count < orderedMixers.Count)
-            {
-                var page = orderedMixers.Skip(count).Take(pageSize);
-
-                foreach (var mixer in page)
-                {
-                    Console.WriteLine("------------------");
-                    Console.WriteLine($"Model: {mixer.ModelName}");
-                    Console.WriteLine($"Výrobce: {mixer.Brand}");
-                    Console.WriteLine($"Stolní: {mixer.Type.Table}");
-                    Console.WriteLine($"Ruční: {mixer.Type.Handheld}");
-                    Console.WriteLine($"Tyčový: {mixer.Type.Stick}");
-                    Console.WriteLine("------------------");
-                }
-
-                count += pageSize;
-
-                if (count < orderedMixers.Count)
-                {
-
-                    Console.WriteLine("pravou šipku pro další stranu, levou pro předešlou stranu. Enter pro ukončení ");
-                    var key = Console.ReadKey();
-                    if (key.Key == ConsoleKey.RightArrow)
-                    {
-                        Console.Clear();
-                    }
-                    else if (key.Key == ConsoleKey.LeftArrow)
-                    {
-                        count -= 2 * pageSize;
-                        Console.Clear();
-                    }
-                    else
-                    {
-                        break;
-                    }
-                    Console.WriteLine();
-
-                }
-            }
-
+            DisplayMixers(orderedMixers);
         }
         public void OrderByHandheld()
         {
             var orderedMixers = mixers.OrderBy(x => x.Type.Handheld).ToList();
-
-            int count = 0;
-            int pageSize = 4;
-
-            while (count < orderedMixers.Count)
-            {
-                var page = orderedMixers.Skip(count).Take(pageSize);
-
-                foreach (var mixer in page)
-                {
-                    Console.WriteLine("------------------");
-                    Console.WriteLine($"Model: {mixer.ModelName}");
-                    Console.WriteLine($"Výrobce: {mixer.Brand}");
-                    Console.WriteLine($"Stolní: {mixer.Type.Table}");
-                    Console.WriteLine($"Ruční: {mixer.Type.Handheld}");
-                    Console.WriteLine($"Tyčový: {mixer.Type.Stick}");
-                    Console.WriteLine("------------------");
-                }
-
-                count += pageSize;
-
-                if (count < orderedMixers.Count)
-                {
-
-                    Console.WriteLine("pravou šipku pro další stranu, levou pro předešlou stranu. Enter pro ukončení ");
-                    var key = Console.ReadKey();
-                    if (key.Key == ConsoleKey.RightArrow)
-                    {
-                        Console.Clear();
-                    }
-                    else if (key.Key == ConsoleKey.LeftArrow)
-                    {
-                        count -= 2 * pageSize;
-                        Console.Clear();
-                    }
-                    else
-                    {
-                        break;
-                    }
-                    Console.WriteLine();
-
-                }
-            }
+            DisplayMixers(orderedMixers);
         }
-         public void FindMixer()
-        {
-            Console.CursorVisible = true;
-            Console.WriteLine("mixér ktere tu sou:");
-            Console.WriteLine("");
-            mixers.ForEach(x =>
-            {
-                Console.WriteLine("------------------");
-                Console.WriteLine("|" + x.ModelName + "|");
-
-            });
-            Console.WriteLine("");
-            Console.WriteLine("Zadejte jméno mixéru, kterou chcete najit");
-            string jmeno = Console.ReadLine();
-
-            var pocet = mixers.Where(x => x.ModelName == jmeno).ToList();
-
-            if (pocet.Count == 0)
-            {
-                Console.WriteLine("Nic se nenašlo");
-                return;
-            }
-
-            pocet.ForEach(x =>
-            {
-                Console.WriteLine("------------------");
-                Console.WriteLine($"Model: {x.ModelName}");
-                Console.WriteLine($"Výrobce: {x.Brand}");
-                Console.WriteLine($"Tyčový: {x.Type.Stick}");
-                Console.WriteLine($"Ruční: {x.Type.Handheld}");
-                Console.WriteLine($"Stolní: {x.Type.Table}");
-                Console.WriteLine("------------------");
-            });
-
-        }
+       
        public  void OrderByBrand()
         {
-            var orderedFridges = mixers.OrderBy(x => x.Brand).ToList();
-
-            int count = 0;
-            int pageSize = 4;
-
-            while (count < orderedFridges.Count)
-            {
-                var page = orderedFridges.Skip(count).Take(pageSize);
-
-                foreach (var mixer in page)
-                {
-                    Console.WriteLine("------------------");
-                    Console.WriteLine($"Model: {mixer.ModelName}");
-                    Console.WriteLine($"Výrobce: {mixer.Brand}");
-                    Console.WriteLine($"Tyčový: {mixer.Type.Stick}");
-                    Console.WriteLine($"Ruční: {mixer.Type.Handheld}");
-                    Console.WriteLine($"Stolní: {mixer.Type.Table}");
-                    Console.WriteLine("------------------");
-                }
-
-                count += pageSize;
-
-                if (count < orderedFridges.Count)
-                {
-                    Console.WriteLine("pravou šipku pro další stranu, levou pro předešlou stranu. Enter pro ukončení ");
-                    var key = Console.ReadKey();
-                    if (key.Key == ConsoleKey.RightArrow)
-                    {
-                        Console.Clear();
-                    }
-                    else if (key.Key == ConsoleKey.LeftArrow)
-                    {
-                        count -= 2 * pageSize;
-                        if (count < 0) count = 0;
-                        Console.Clear();
-                    }
-                    else
-                    {
-                        break;
-                    }
-                    Console.WriteLine();
-                }
-            }
+            var orderedMixers = mixers.OrderBy(x => x.Brand).ToList();
+            DisplayMixers(orderedMixers);
         }
          public void OrderByModelName()
         {
-
             var orderedMixers = mixers.OrderBy(x => x.ModelName).ToList();
-
-            int count = 0;
-            int pageSize = 4;
-
-            while (count < orderedMixers.Count)
-            {
-                var page = orderedMixers.Skip(count).Take(pageSize);
-
-                foreach (var mixer in page)
-                {
-                    Console.WriteLine("------------------");
-                    Console.WriteLine($"Model: {mixer.ModelName}");
-                    Console.WriteLine($"Výrobce: {mixer.Brand}");
-                    Console.WriteLine($"Stolní: {mixer.Type.Table}");
-                    Console.WriteLine($"Ruční: {mixer.Type.Handheld}");
-                    Console.WriteLine($"Tyčový: {mixer.Type.Stick}");
-                    Console.WriteLine("------------------");
-                }
-
-                count += pageSize;
-
-                if (count < orderedMixers.Count)
-                {
-
-                    Console.WriteLine("pravou šipku pro další stranu, levou pro předešlou stranu. Enter pro ukončení ");
-                    var key = Console.ReadKey();
-                    if (key.Key == ConsoleKey.RightArrow)
-                    {
-                        Console.Clear();
-                    }
-                    else if (key.Key == ConsoleKey.LeftArrow)
-                    {
-                        count -= 2 * pageSize;
-                        Console.Clear();
-                    }
-                    else
-                    {
-                        break;
-                    }
-                    Console.WriteLine();
-
-                }
-            }
+            DisplayMixers(orderedMixers);
         }
         public void EditMixers()
 
@@ -501,6 +242,138 @@ namespace MixerApp
                 }
             });
         }
+        public void FindMixer()
+        {
+            Console.CursorVisible = true;
+            Console.WriteLine("mixér ktere tu sou:");
+            Console.WriteLine("");
+            mixers.ForEach(x =>
+            {
+                Console.WriteLine("------------------");
+                Console.WriteLine("|" + x.ModelName + "|");
+
+            });
+            Console.WriteLine("");
+            Console.WriteLine("Zadejte jméno mixéru, kterou chcete najit");
+            string jmeno = Console.ReadLine();
+
+            var pocet = mixers.Where(x => x.ModelName == jmeno).ToList();
+
+            if (pocet.Count == 0)
+            {
+                Console.WriteLine("Nic se nenašlo");
+                return;
+            }
+
+            pocet.ForEach(x =>
+            {
+                Console.WriteLine("------------------");
+                Console.WriteLine($"Model: {x.ModelName}");
+                Console.WriteLine($"Výrobce: {x.Brand}");
+                Console.WriteLine($"Tyčový: {x.Type.Stick}");
+                Console.WriteLine($"Ruční: {x.Type.Handheld}");
+                Console.WriteLine($"Stolní: {x.Type.Table}");
+                Console.WriteLine("------------------");
+            });
+
+        }
+        public void DisplayMixers(List<Mixer> orderedMixers)
+        {
+            int count = 0;
+            int pageSize = 4;
+
+            while (count < orderedMixers.Count)
+            {
+                var page = orderedMixers.Skip(count).Take(pageSize);
+
+                foreach (var mixer in page)
+                {
+                    Console.WriteLine("------------------");
+                    Console.WriteLine($"Model: {mixer.ModelName}");
+                    Console.WriteLine($"Výrobce: {mixer.Brand}");
+                    Console.WriteLine($"Stolní: {mixer.Type.Table}");
+                    Console.WriteLine($"Ruční: {mixer.Type.Handheld}");
+                    Console.WriteLine($"Tyčový: {mixer.Type.Stick}");
+                    Console.WriteLine("------------------");
+                }
+
+                count += pageSize;
+
+                if (count < orderedMixers.Count)
+                {
+                    Console.WriteLine("pravou šipku pro další stranu, levou pro předešlou stranu. Enter pro ukončení ");
+                    var key = Console.ReadKey();
+                    if (key.Key == ConsoleKey.RightArrow)
+                    {
+                        Console.Clear();
+                    }
+                    else if (key.Key == ConsoleKey.LeftArrow)
+                    {
+                        count -= 2 * pageSize;
+                        if (count < 0) count = 0;
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    Console.WriteLine();
+                }
+            }
+        }
+        public void SaveJson()
+        {
+            try
+            {
+                string jsonString = JsonSerializer.Serialize(mixers);
+                File.WriteAllText("databaze.json", jsonString);
+                Console.WriteLine("Data byla úspěšně uložena do databaze.json");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Chyba při ukládání dat: {ex.Message}");
+            }
+        }
+        public void DeleteJson()
+        {
+            try
+            {
+                if (File.Exists("databaze.json"))
+                {
+                    File.Delete("databaze.json");
+                    Console.WriteLine("databaze.json byla úspěšně smazána");
+                }
+                else
+                {
+                    Console.WriteLine("Soubor databaze.json neexistuje");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Chyba při mazání souboru: {ex.Message}");
+            }
+        }
+        public void LoadJson()
+        {
+            try
+            {
+                if (File.Exists("databaze.json"))
+                {
+                    string jsonString = File.ReadAllText("databaze.json");
+                    mixers = JsonSerializer.Deserialize<List<Mixer>>(jsonString);
+                    Console.WriteLine("Data byla úspěšně načtena z databaze.json");
+                }
+                else
+                {
+                    Console.WriteLine("Soubor databaze.json neexistuje");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Chyba při načítání dat: {ex.Message}");
+            }
+        }
+
         public void Exit()
         {
             Environment.Exit(0);
